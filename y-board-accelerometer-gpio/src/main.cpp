@@ -25,7 +25,16 @@ void loop() {
 
   float knob = float(Yboard.get_knob() - 50) / 50;
 
-  rotX += knob / 3;
+  accelerometer_data accel_data = Yboard.get_accelerometer();
+  float mag =  sqrt(accel_data.x*accel_data.x + accel_data.y*accel_data.y + accel_data.z*accel_data.z);
+  float x = accel_data.x / mag;
+  float y = accel_data.y / mag;
+  float z = accel_data.z / mag;
+
+  rotY = -asin(z);
+  rotZ = -asin(y);
+
+  rotX = knob * PI / 2;
 
   // This is the default accelerometer program I wrote for this lab.
   // Everything for this function happens inside ../lib/accelerometer.cpp
